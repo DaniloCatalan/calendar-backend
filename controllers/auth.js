@@ -72,9 +72,8 @@ const loginUser = async (req, res = response) => {
       ok: true,
       uid: user.id,
       name: user.name,
-      token
+      token,
     });
-  
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -84,10 +83,14 @@ const loginUser = async (req, res = response) => {
   }
 };
 
-const renewToken = (req, res = response) => {
+const renewToken = async (req, res = response) => {
+  const { uid, name } = req;
+
+  const token = await generarJWT(uid, name);
+
   res.json({
     ok: true,
-    msg: 'renew',
+    token,
   });
 };
 
